@@ -3,19 +3,13 @@ use std::{
     io::{BufRead, BufReader},
 };
 fn main() {
-    println!("Part 1: {}", part_1("inputs/day1/input1.txt"));
-    println!("Part 2: {}", part_2("inputs/day1/input1.txt"));
+    let input = "inputs/day1/input.txt";
+    println!("Part 1: {}", part_1(input));
+    println!("Part 2: {}", part_2(input));
 }
 
 fn part_1(input: &str) -> i32 {
-    let f = File::open(input).unwrap();
-    let reader = BufReader::new(f);
-
-    let i: Vec<i32> = reader
-        .lines()
-        .filter_map(|n| n.unwrap().parse::<i32>().unwrap().into())
-        .collect();
-
+    let i = parse_lines(input);
     let a = i.iter();
     let b = i.iter().skip(1);
     let z = a
@@ -26,13 +20,7 @@ fn part_1(input: &str) -> i32 {
 }
 
 fn part_2(input: &str) -> i32 {
-    let f = File::open(input).unwrap();
-    let reader = BufReader::new(f);
-
-    let i: Vec<i32> = reader
-        .lines()
-        .filter_map(|n| n.unwrap().parse::<i32>().unwrap().into())
-        .collect();
+    let i = parse_lines(input);
 
     let a = i.windows(3);
     let b = i.windows(3).skip(1);
@@ -45,4 +33,14 @@ fn part_2(input: &str) -> i32 {
     });
 
     z
+}
+
+fn parse_lines(input: &str) -> Vec<i32> {
+    let f = File::open(input).unwrap();
+    let reader = BufReader::new(f);
+
+    reader
+        .lines()
+        .filter_map(|n| n.unwrap().parse::<i32>().unwrap().into())
+        .collect()
 }
